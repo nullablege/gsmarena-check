@@ -4,7 +4,7 @@ name: Check GSMArena Hourly
 on:
   schedule:
     # Her saatin başında (UTC) çalışır
-    - cron: '0 * * * *'
+    - cron: '*/10 * * * *'
   workflow_dispatch: # Manuel tetikleme için
 
 jobs:
