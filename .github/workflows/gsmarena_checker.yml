@@ -36,13 +36,13 @@ jobs:
 
       - name: Run GSMArena Monitor and Scrape Script
         env:
-          PHP_SAVE_URL_ENV: ${{ secrets.PHP_SAVE_URL_SECRET }}
-          GEMINI_API_KEY_ENV: ${{ secrets.GEMINI_API_KEY_SECRET }}
+          PHP_SAVE_URL_ENV: ${{ secrets.PHP_SAVE_URL }} # _SECRET takısını kaldırın
+          GEMINI_API_KEY_ENV: ${{ secrets.GEMINI_API_KEY }} # _SECRET takısını kaldırın
           SMTP_SERVER_ENV: ${{ secrets.SMTP_SERVER_SECRET }}
           SMTP_PORT_ENV: ${{ secrets.SMTP_PORT_SECRET }}
           SMTP_USERNAME_ENV: ${{ secrets.SMTP_USERNAME_SECRET }}
           SMTP_PASSWORD_ENV: ${{ secrets.SMTP_PASSWORD_SECRET }}
           SENDER_EMAIL_ENV: ${{ secrets.SENDER_EMAIL_SECRET }}
-          RECEIVER_EMAIL_ENV: ${{ secrets.RECEIVER_EMAIL_SECRET }}
+          RECEIVER_EMAIL_ENV: ${{ secrets.RECEIVER_EMAIL_SECRET }} # Bu da görselde _SECRET ile bitiyor, kontrol edin.
         run: |
-          xvfb-run -a python gsmarena_monitor_and_scrape.py # Bir önceki yanıttaki Python script dosyasının adı
+          xvfb-run -a python gsmarena_monitor_and_scrape.py
