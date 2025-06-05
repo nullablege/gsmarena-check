@@ -1,7 +1,11 @@
 [
     {
-        "name": "OnePlus 13",
-        "link": "https://www.gsmarena.com/oneplus_13_5g-13818.php"
+        "name": "ZTE nubia RedMagic 10S Pro",
+        "link": "https://www.gsmarena.com/zte_nubia_redmagic_10spro_5g-13906.php"
+    },
+    {
+        "name": "OnePlus 13s",
+        "link": "https://www.gsmarena.com/oneplus_13s_5g-13818.php"
     },
     {
         "name": "OnePlus Pad 3",
@@ -10,5 +14,9 @@
     {
         "name": "vivo iQOO Neo 10",
         "link": "https://www.gsmarena.com/vivo_iqoo_neo_10_5g-13904.php"
+    },
+    {
+        "name": "Honor X6c",
+        "link": "https://www.gsmarena.com/honor_x6c-13938.php"
     }
 ]
