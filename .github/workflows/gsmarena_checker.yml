@@ -1,37 +1,48 @@
 # .github/workflows/gsmarena_checker.yml
-name: Check GSMArena Hourly
+name: Check GSMArena and Scrape
 
 on:
   schedule:
-    # Her saatin başında (UTC) çalışır
+    # Her 10 dakikada bir (UTC) çalışır
     - cron: '*/10 * * * *'
   workflow_dispatch: # Manuel tetikleme için
 
 jobs:
-  check_phones:
+  check_and_scrape_phones:
     runs-on: ubuntu-latest
-    permissions: # Repository'ye yazma izni için (dosyayı commit etmek)
-        contents: write
+    permissions:
+      contents: write # last_phones_data.json dosyasını commit etmek için
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true # GITHUB_TOKEN ile push için
 
-      - name: Set up Python 3.x
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.9' # Veya istediğiniz bir 3.x sürümü
+
+      - name: Install OS dependencies (Chrome & Xvfb)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable xvfb
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+          pip install requests beautifulsoup4 selenium webdriver-manager
 
-      - name: Run GSMArena checker script
+      - name: Run GSMArena Monitor and Scrape Script
         env:
+          PHP_SAVE_URL_ENV: ${{ secrets.PHP_SAVE_URL_SECRET }}
+          GEMINI_API_KEY_ENV: ${{ secrets.GEMINI_API_KEY_SECRET }}
           SMTP_SERVER_ENV: ${{ secrets.SMTP_SERVER_SECRET }}
           SMTP_PORT_ENV: ${{ secrets.SMTP_PORT_SECRET }}
           SMTP_USERNAME_ENV: ${{ secrets.SMTP_USERNAME_SECRET }}
           SMTP_PASSWORD_ENV: ${{ secrets.SMTP_PASSWORD_SECRET }}
           SENDER_EMAIL_ENV: ${{ secrets.SENDER_EMAIL_SECRET }}
           RECEIVER_EMAIL_ENV: ${{ secrets.RECEIVER_EMAIL_SECRET }}
-        run: python check_gsmarena_python.py # Python script dosyanızın adı (bu dosya da repository'nizde olmalı)
+        run: |
+          xvfb-run -a python gsmarena_monitor_and_scrape.py # Bir önceki yanıttaki Python script dosyasının adı
